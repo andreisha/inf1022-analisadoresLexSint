@@ -1,0 +1,2 @@
+Program Teste = INF + 1022
+end

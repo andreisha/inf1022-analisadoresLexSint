@@ -20,7 +20,7 @@ void INC(int id);
 %type <str> line exp term
 %type <number> assignment
 %start line
-%token<str> ????
+%token<str> id
 %token<number> id
 
 %start program
