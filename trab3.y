@@ -8,8 +8,6 @@ int yylex();
 void yyerror(const char *s){
       fprintf(stderr, "%s\n", s);
    };
-void zera(int num);
-void inc(int num);
  
 %}
 %union
@@ -17,7 +15,7 @@ void inc(int num);
    char *str;
    int  number;
 };
-%type <str> lines line statement program varlist;
+%type <str> lines line statement program cmd cmds varlist;
 %token<str> ENTRADA
 %token<str> SAIDA;
 %token<str> FIM;
@@ -31,6 +29,11 @@ void inc(int num);
 %token<str> ZERA;
 %token<str> NAME;
 %token<str> ESPACO;
+%token<str> FIMFACA;
+%token<str> FIMENTAO;
+%token<str> FIMSENAO;
+%token<str> FIMENQUANTO;
+%token<str> FIMSE;
 %token<number> ROWEND;
 %token<number> NUMBER;
 %token<number> ASSIGN;
@@ -40,45 +43,39 @@ void inc(int num);
 %token<number> MULT;
 %token<number> END;
 %token<number> PROGRAM;
-%token<number> id;
+%token<str> id;
 
 %start program
 %%
-program: lines FIM ROWEND {printf ("Codigo Objeto: \n%s\n", $1); exit(1);};
-lines:      line {$$ = $1;};
-          | line line {char * result = malloc(strlen($1) + strlen($2) + 1); strcpy(result, $1); strcat(result, ";"); strcat(result, $2); $$=result;};
+program: PROGRAM lines ROWEND {printf ("Fim do processo:\n%s\n", $2); exit(1);};
 
-line:       statement ROWEND {$$ = $1;};
+lines: line {$$ = $1;};
+          | line lines {char * result = malloc(strlen($1) + strlen($2) + 1); strcpy(result, $1); strcat(result, ";\n"); strcat(result, $2); $$=result;};
 
-statement: ENTRADA varlist;
-        | SAIDA varlist;
-        | cmds;
-    
-varlist: id varlist {};
-       | id {};
+line: statement ROWEND {$$ = $1;};
+
+statement: ENTRADA varlist{printf ("input(%s);\n", $2);};
+        | SAIDA varlist {printf ("output(%s);", $2);};
+        | cmds ;
+        | FIM {printf ("\nend of program;\n");};
+        | FIMFACA {printf ("\nfim do faca;\n"); $$ = $1};
+
+varlist: id varlist {char * result = malloc(strlen($1) + strlen($2) + 1); strcpy(result, $1); strcat(result, ","); strcat(result, $2); $$=result;};
+       | id {$$ = $1;};
        
-cmds: cmd cmds {};
-	| cmd {};
+cmds: cmd cmds {char * result = malloc(strlen($1) + strlen($2) + 1); strcpy(result, $1); strcat(result, ";\n"); strcat(result, $2); $$=result;};
+	| cmd ROWEND {$$=$1};
+        | ROWEND cmd {$$=$2};
     
-cmd: FACA id VEZES cmds FIM {};
-	| ENQUANTO id FACA cmds FIM {};
-	| SE id ENTAO cmds SENAO cmds {};
-	| SE id ENTAO cmds {};
-        | id ASSIGN id {$1 = $3;};
-	| INC id  {inc($2);};
-	| ZERA id {zera($2);};
+cmd: FACA id VEZES cmds {printf("\ndurante %s vezes :", $2); $$ = $1};
+	| ENQUANTO id FACA cmds FIMENQUANTO {};
+	| SE id ENTAO cmds FIMENTAO SENAO cmds FIMSENAO{};
+	| SE id ENTAO cmds FIMSE{};
+        | id ASSIGN id {printf("\ncopia(%s,%s);",$3,$1);};
+	| INC AP id FP {printf ("\nincrementa(%s);", $3); $$=$3};
+	| ZERA AP id FP {printf ("\nzera(%s);",$3);};
 
 %%
-
-
-
-void inc(int num){
-	num = num + 1;	
-};
-
-void zera(int num){
-	num = 0;	
-};
 
 int main(int argc, char *argv[])
 {

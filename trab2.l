@@ -15,6 +15,11 @@ ENTAO                   {printf("ENTAO ");}
 SENAO                   {printf("SENAO ");}
 INC                     {printf("INC ");}
 ZERA                    {printf("ZERA ");}
+FIMFACA                 {printf("FIMFACA ");}
+FIMENTAO                {printf("FIMENTAO ");}
+FIMSENAO                {printf("FIMSENAO ");}
+FIMENQUANTO             {printf("FIMENQUANTO ");}
+FIMSE                   {printf("FIMSE ");}
 [0-9]+                  {printf("%s",yytext); yylval.number=atoi(yytext);}
 [a-zA-Z]+               {printf("%s",yytext); yylval.str=strdup(yytext);}
 \n       printf("\n");
