@@ -26,12 +26,17 @@ void yyerror(const char *s) {
 %start program
 %%
 program: PROGRAM lines END ROWEND {printf ("Codigo Objeto: \n%s\n", $2); exit(1);};
+
 lines:      line {$$ = $1;};
           | line line {char * result = malloc(strlen($1) + strlen($2) + 1); strcpy(result, $1); strcat(result, ";"); strcat(result, $2); $$=result;};
+      
 line:       statement ROWEND {$$ = $1;};
-statement:  NAME ASSIGN expression {char * result = malloc(strlen($1) + strlen($3) + 1); strcpy(result, $1); strcat(result, "="); strcat(result, $3); $$=result;}
+
+statement:  NAME ASSIGN expression {char * result = malloc(strlen($1) + strlen($3) + 1); strcpy(result, $1); strcat(result, "="); strcat(result, $3); $$=result;};
+
 expression: expression PLUS term {char * result = malloc(strlen($1) + strlen($3) + 1); strcpy(result, $1); strcat(result, ""); strcat(result, $3); $$=result;}
           | term {$$ = $1;};
+      
 term:       AP expression FP {char * result = malloc(strlen($2) + 2); strcpy(result, "{"); strcat(result, $2); strcat(result, "}");$$=result;}
           | NAME {$$ = $1;};
 %%

@@ -1,2 +1,11 @@
-Program Teste = INF + 1022
+Program Teste = INF + TESTE
+hola = teste + horas
 end
+
+Program ENTRADA s x y
+SAIDA s x
+FIM
+FIM
+
+
+        | FIM {printf ("end of program;\n");};
