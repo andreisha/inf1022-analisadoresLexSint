@@ -2,10 +2,13 @@ Program Teste = INF + TESTE
 hola = teste + horas
 end
 
-Program ENTRADA s x y
-SAIDA s x
+Program ENTRADA i x y
+ZERA(x)
+FACA i VEZES INC(y)
+x = y
+SAIDA x
 FIM
-FIM
+
 
 
         | FIM {printf ("end of program;\n");};

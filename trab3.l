@@ -23,10 +23,10 @@ FIMSE                   {printf("FIMSE "); return FIMSE;}
 [0-9]+                  {printf("%s ",yytext); yylval.number=atoi(yytext);}
 [a-zA-Z]+               {printf("%s ",yytext); yylval.str=strdup(yytext); return id;}
 \n       {printf("\n"); return ROWEND;};
-"="      {printf("ASSIGN"); return ASSIGN;};
-"+"      {printf("PLUS"); return PLUS;};
-"*"      {printf("MULT"); return MULT;};
-"("      {printf("AP"); return AP;};
-")"      {printf("FP"); return FP;};
+"="      {printf("ASSIGN "); return ASSIGN;};
+"+"      {printf("PLUS "); return PLUS;};
+"*"      {printf("MULT "); return MULT;};
+"("      {printf("AP "); return AP;};
+")"      {printf("FP "); return FP;};
 .        ;
 
