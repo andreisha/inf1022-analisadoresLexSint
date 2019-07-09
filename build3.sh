@@ -1,3 +1,3 @@
-bison -d trab3.y
-flex trab3.l
-gcc -o sequencia3 lex.yy.c trab3.tab.c -ll
+bison -d trabmain.y
+flex trabmain.l
+gcc -o trabmain lex.yy.c trabmain.tab.c -ll

@@ -3,7 +3,7 @@
         #include <stdio.h>
         #include <string.h>
 
-  
+  	FILE * fp;
         int yylex();
         void yyerror(const char *s){
                 fprintf(stderr, "%s\n", s);
@@ -24,39 +24,33 @@
 
 %start program
 %%
-program: PROGRAM lines ROWEND {printf ("Fim do processo:\n%s\n", $2); exit(1);};
+program: PROGRAM lines {printf ("Fim do processo:\n%s\n", $2);};
 
-lines: line {$$ = $1;};
+lines: line {$$ = $1;}
           | line lines {char * result = malloc(strlen($1) + strlen($2) + 1); strcpy(result, $1); strcat(result, ";\n"); strcat(result, $2); $$=result;};
 
 line: statement ROWEND {$$ = $1;};
 
-statement: ENTRADA varlist{printf ("input(%s);\n", $2);};
-        | SAIDA varlist {printf ("output(%s);", $2);};
+statement: ENTRADA varlist{fp = fopen("provolone.txt","w");fprintf (fp,"\ninput(%s);\n", $2);};
+        | SAIDA varlist {printf ("\noutput(%s);", $2);};
         | cmds ;
-        | FIM {printf ("\nend of program;\n");};
-        | FIMFACA {printf ("\nfim do faca;\n"); $$ = $1;};
+        | FIM {fprintf (fp,"\nend of program;\n");fclose(fp); exit(1);};
+        | FIMFACA {fprintf (fp,"\nfim do faca;\n"); $$ = $1;};
 
-varlist: id varlist {char * result = malloc(strlen($1) + strlen($2) + 1); strcpy(result, $1); strcat(result, ","); strcat(result, $2); $$=result;};
+varlist: id varlist {char * result = malloc(strlen($1) + strlen($2) + 1); strcpy(result, $1); strcat(result, ","); strcat(result, $2); $$=result;}
        | id {$$ = $1;};
        
-cmds: cmd cmds {char * result = malloc(strlen($1) + strlen($2) + 1); strcpy(result, $1); strcat(result, ";\n"); strcat(result, $2); $$=result;};
-	| cmd ROWEND {$$=$1;};
-        | ROWEND cmd {$$=$2;};
-    
-cmd: FACA id VEZES cmds {printf("\ndurante %s vezes :", $2); $$ = $1;};
-	| ENQUANTO id FACA cmds FIMENQUANTO {};
-	| SE id ENTAO cmds FIMENTAO SENAO cmds FIMSENAO{};
-	| SE id ENTAO cmds FIMSE{};
-        | id ASSIGN id {printf("\ncopia(%s,%s);",$3,$1);};
-	| INC AP id FP {printf ("\nincrementa(%s);", $3); $$=$3;};
-	| ZERA AP id FP {printf ("\nzera(%s);",$3);};
+cmds: cmd cmds {char * result = malloc(strlen($1) + strlen($2) + 1); strcpy(result, $1); strcat(result, ";\n"); strcat(result, $2); $$=result;}
 
-id: id '+' NUMBER
-        | id '-' NUMBER
-        | id '*' NUMBER
-        | id '/' NUMBER
-        | NUMBER
+        | ROWEND cmd {$$=$2;}
+    
+cmd: FACA id VEZES {fprintf(fp,"\ndurante %s vezes faca {\n\n", $2);} cmds {fprintf(fp,"\n}\n"); $$ = $1;}
+	| ENQUANTO id FACA cmds FIMENQUANTO {}
+	| SE id ENTAO cmds FIMENTAO SENAO cmds FIMSENAO{}
+	| SE id ENTAO cmds FIMSE{}
+        | id ASSIGN id {fprintf(fp,"copia(%s,%s);\n",$3,$1);}
+	| INC AP id FP {fprintf (fp,"incrementa(%s);\n", $3); $$=$3;}
+	| ZERA AP id FP {fprintf (fp,"zera(%s);",$3);};
 
 %%
 

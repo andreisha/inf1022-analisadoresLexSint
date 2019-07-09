@@ -1,0 +1,13 @@
+
+input(s,x,y);
+zera(x);
+durante i vezes faca {
+
+incrementa(y);
+copia(y,x);
+
+}
+
+fim do faca;
+
+end of program;
