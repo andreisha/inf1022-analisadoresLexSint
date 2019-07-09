@@ -52,6 +52,12 @@ cmd: FACA id VEZES cmds {printf("\ndurante %s vezes :", $2); $$ = $1;};
 	| INC AP id FP {printf ("\nincrementa(%s);", $3); $$=$3;};
 	| ZERA AP id FP {printf ("\nzera(%s);",$3);};
 
+id: id '+' NUMBER
+        | id '-' NUMBER
+        | id '*' NUMBER
+        | id '/' NUMBER
+        | NUMBER
+
 %%
 
 int main(int argc, char *argv[])
