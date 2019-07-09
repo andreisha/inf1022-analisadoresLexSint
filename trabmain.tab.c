@@ -1453,7 +1453,7 @@ yyreduce:
 
   case 9:
 #line 41 "trabmain.y"
-    {	fprintf(fp,output);
+    {	fputs(output,fp);
 		fprintf (fp,"\nend of program;\n");fclose(fp); exit(1);;}
     break;
 

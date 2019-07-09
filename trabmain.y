@@ -38,7 +38,7 @@ statement: ENTRADA varlist{fp = fopen("provolone.txt","w");fprintf (fp,"\ninput(
 			strcat(output,$2);
 			strcat(output,");\n");}
         | cmds 
-        | FIM {	fprintf(fp,output);
+        | FIM {	fputs(output,fp);
 		fprintf (fp,"\nend of program;\n");fclose(fp); exit(1);}
         
 varlist: id varlist {char * result = malloc(strlen($1) + strlen($2) + 1); strcpy(result, $1); strcat(result, ","); strcat(result, $2); $$=result;}
