@@ -62,7 +62,7 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 1 "trabmain.y" /* yacc.c:339  */
+#line 1 "trabmainC.y" /* yacc.c:339  */
 
         #include <stdlib.h>
         #include <stdio.h>
@@ -76,7 +76,7 @@
         };
  
 
-#line 80 "trabmain.tab.c" /* yacc.c:339  */
+#line 80 "trabmainC.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -95,9 +95,9 @@
 #endif
 
 /* In a future release of Bison, this section will be replaced
-   by #include "trabmain.tab.h".  */
-#ifndef YY_YY_TRABMAIN_TAB_H_INCLUDED
-# define YY_YY_TRABMAIN_TAB_H_INCLUDED
+   by #include "trabmainC.tab.h".  */
+#ifndef YY_YY_TRABMAINC_TAB_H_INCLUDED
+# define YY_YY_TRABMAINC_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -147,12 +147,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 15 "trabmain.y" /* yacc.c:355  */
+#line 15 "trabmainC.y" /* yacc.c:355  */
 
    char *str;
    int  number;
 
-#line 156 "trabmain.tab.c" /* yacc.c:355  */
+#line 156 "trabmainC.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -165,11 +165,11 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_TRABMAIN_TAB_H_INCLUDED  */
+#endif /* !YY_YY_TRABMAINC_TAB_H_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 173 "trabmain.tab.c" /* yacc.c:358  */
+#line 173 "trabmainC.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -469,9 +469,9 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    29,    29,    31,    32,    34,    36,    37,    41,    42,
-      45,    46,    48,    49,    51,    51,    52,    52,    53,    53,
-      54,    55,    56,    58,    58,    59,    59
+       0,    29,    29,    31,    32,    34,    36,    43,    47,    48,
+      51,    52,    54,    55,    57,    57,    58,    58,    59,    59,
+      60,    61,    62,    64,    64,    65,    65
 };
 #endif
 
@@ -1280,149 +1280,155 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 29 "trabmain.y" /* yacc.c:1646  */
+#line 29 "trabmainC.y" /* yacc.c:1646  */
     {printf ("Fim do processo:\n%s\n", (yyvsp[0].str));}
-#line 1286 "trabmain.tab.c" /* yacc.c:1646  */
+#line 1286 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 31 "trabmain.y" /* yacc.c:1646  */
+#line 31 "trabmainC.y" /* yacc.c:1646  */
     {(yyval.str) = (yyvsp[0].str);}
-#line 1292 "trabmain.tab.c" /* yacc.c:1646  */
+#line 1292 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 32 "trabmain.y" /* yacc.c:1646  */
+#line 32 "trabmainC.y" /* yacc.c:1646  */
     {char * result = malloc(strlen((yyvsp[-1].str)) + strlen((yyvsp[0].str)) + 1); strcpy(result, (yyvsp[-1].str)); strcat(result, ";\n"); strcat(result, (yyvsp[0].str)); (yyval.str)=result;}
-#line 1298 "trabmain.tab.c" /* yacc.c:1646  */
+#line 1298 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 34 "trabmain.y" /* yacc.c:1646  */
+#line 34 "trabmainC.y" /* yacc.c:1646  */
     {(yyval.str) = (yyvsp[-1].str);}
-#line 1304 "trabmain.tab.c" /* yacc.c:1646  */
+#line 1304 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 36 "trabmain.y" /* yacc.c:1646  */
-    {fp = fopen("provolone.txt","w");fprintf (fp,"\ninput(%s);\n", (yyvsp[0].str));}
-#line 1310 "trabmain.tab.c" /* yacc.c:1646  */
+#line 36 "trabmainC.y" /* yacc.c:1646  */
+    {fp = fopen("provolone.c","w");
+                                fprintf (fp, "#include<stdio.h>\n\n");
+                                fprintf (fp, "int program(int x, int y, int z);\n\n");
+                                fprintf (fp, "int main(int argc, char *argv[]){\n");
+                                fprintf (fp, "printf(\"Resultado = %%d\", program(%s));\n", (yyvsp[0].str));
+                                fprintf (fp, "}\n\n");
+                                fprintf (fp, "\nint program(%s){\n", (yyvsp[0].str));}
+#line 1316 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 37 "trabmain.y" /* yacc.c:1646  */
+#line 43 "trabmainC.y" /* yacc.c:1646  */
     {output = (char *)malloc(11+(strlen((yyvsp[0].str)))*sizeof(char)); 
-			strcpy(output,"\noutput(");
+			strcpy(output,"return ");
 			strcat(output,(yyvsp[0].str));
-			strcat(output,");\n");}
-#line 1319 "trabmain.tab.c" /* yacc.c:1646  */
+			strcat(output,";");}
+#line 1325 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 42 "trabmain.y" /* yacc.c:1646  */
+#line 48 "trabmainC.y" /* yacc.c:1646  */
     {	fputs(output,fp);
-		fprintf (fp,"\nend of program;\n");fclose(fp); exit(1);}
-#line 1326 "trabmain.tab.c" /* yacc.c:1646  */
+		fprintf (fp,"\n}\n");fclose(fp); exit(1);}
+#line 1332 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 45 "trabmain.y" /* yacc.c:1646  */
+#line 51 "trabmainC.y" /* yacc.c:1646  */
     {char * result = malloc(strlen((yyvsp[-1].str)) + strlen((yyvsp[0].str)) + 1); strcpy(result, (yyvsp[-1].str)); strcat(result, ","); strcat(result, (yyvsp[0].str)); (yyval.str)=result;}
-#line 1332 "trabmain.tab.c" /* yacc.c:1646  */
+#line 1338 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 46 "trabmain.y" /* yacc.c:1646  */
+#line 52 "trabmainC.y" /* yacc.c:1646  */
     {(yyval.str) = (yyvsp[0].str);}
-#line 1338 "trabmain.tab.c" /* yacc.c:1646  */
+#line 1344 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 48 "trabmain.y" /* yacc.c:1646  */
+#line 54 "trabmainC.y" /* yacc.c:1646  */
     {char * result = malloc(strlen((yyvsp[-1].str)) + strlen((yyvsp[0].str)) + 1); strcpy(result, (yyvsp[-1].str)); strcat(result, ";\n"); strcat(result, (yyvsp[0].str)); (yyval.str)=result;}
-#line 1344 "trabmain.tab.c" /* yacc.c:1646  */
+#line 1350 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 49 "trabmain.y" /* yacc.c:1646  */
+#line 55 "trabmainC.y" /* yacc.c:1646  */
     {(yyval.str)=(yyvsp[0].str);}
-#line 1350 "trabmain.tab.c" /* yacc.c:1646  */
+#line 1356 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 51 "trabmain.y" /* yacc.c:1646  */
-    {fprintf(fp,"\ndurante %s vezes faca {\n", (yyvsp[-1].str));}
-#line 1356 "trabmain.tab.c" /* yacc.c:1646  */
+#line 57 "trabmainC.y" /* yacc.c:1646  */
+    {fprintf(fp,"\nfor(int j = 0; j < %s; j++){\n", (yyvsp[-1].str));}
+#line 1362 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 51 "trabmain.y" /* yacc.c:1646  */
-    {fprintf(fp,"}\n");fprintf (fp,"\nfim do faca;\n"); (yyval.str) = (yyvsp[-6].str);}
-#line 1362 "trabmain.tab.c" /* yacc.c:1646  */
+#line 57 "trabmainC.y" /* yacc.c:1646  */
+    {fprintf(fp,"}\n"); (yyval.str) = (yyvsp[-6].str);}
+#line 1368 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 52 "trabmain.y" /* yacc.c:1646  */
-    {fprintf(fp,"\nenquanto %s > 0 faca {\n", (yyvsp[-1].str));}
-#line 1368 "trabmain.tab.c" /* yacc.c:1646  */
+#line 58 "trabmainC.y" /* yacc.c:1646  */
+    {fprintf(fp,"\nwhile(%s > 0){\n", (yyvsp[-1].str));}
+#line 1374 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 52 "trabmain.y" /* yacc.c:1646  */
-    {fprintf(fp,"}\n");fprintf (fp,"\nfim do enquanto;\n"); (yyval.str) = (yyvsp[-6].str);}
-#line 1374 "trabmain.tab.c" /* yacc.c:1646  */
+#line 58 "trabmainC.y" /* yacc.c:1646  */
+    {fprintf(fp,"i--;\n}\n"); (yyval.str) = (yyvsp[-6].str);}
+#line 1380 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 53 "trabmain.y" /* yacc.c:1646  */
-    {fprintf(fp,"\nse %s > 0 se {\n", (yyvsp[-1].str));}
-#line 1380 "trabmain.tab.c" /* yacc.c:1646  */
+#line 59 "trabmainC.y" /* yacc.c:1646  */
+    {fprintf(fp,"\nif(%s > 0){\n", (yyvsp[-1].str));}
+#line 1386 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 54 "trabmain.y" /* yacc.c:1646  */
-    {fprintf(fp,"copia(%s,%s);\n",(yyvsp[-1].str),(yyvsp[-3].str));}
-#line 1386 "trabmain.tab.c" /* yacc.c:1646  */
+#line 60 "trabmainC.y" /* yacc.c:1646  */
+    {fprintf(fp,"%s = %s;\n",(yyvsp[-3].str),(yyvsp[-1].str));}
+#line 1392 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 55 "trabmain.y" /* yacc.c:1646  */
-    {fprintf (fp,"incrementa(%s);\n", (yyvsp[-2].str)); (yyval.str)=(yyvsp[-2].str);}
-#line 1392 "trabmain.tab.c" /* yacc.c:1646  */
+#line 61 "trabmainC.y" /* yacc.c:1646  */
+    {fprintf (fp,"%s++;\n", (yyvsp[-2].str)); (yyval.str)=(yyvsp[-2].str);}
+#line 1398 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 56 "trabmain.y" /* yacc.c:1646  */
-    {fprintf (fp,"zera(%s);\n",(yyvsp[-2].str));}
-#line 1398 "trabmain.tab.c" /* yacc.c:1646  */
+#line 62 "trabmainC.y" /* yacc.c:1646  */
+    {fprintf (fp,"%s = 0;\n",(yyvsp[-2].str));}
+#line 1404 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 58 "trabmain.y" /* yacc.c:1646  */
-    {fprintf(fp,"}\n"); fprintf(fp,"\nfim do entao;\n"); fprintf(fp,"senao {\n");}
-#line 1404 "trabmain.tab.c" /* yacc.c:1646  */
+#line 64 "trabmainC.y" /* yacc.c:1646  */
+    {fprintf(fp,"}\n"); fprintf(fp,"else{\n");}
+#line 1410 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 58 "trabmain.y" /* yacc.c:1646  */
-    {fprintf(fp,"}\n");fprintf (fp,"\nfim do senao;\n"); (yyval.str) = (yyvsp[-4].str);}
-#line 1410 "trabmain.tab.c" /* yacc.c:1646  */
+#line 64 "trabmainC.y" /* yacc.c:1646  */
+    {fprintf(fp,"}\n");fprintf (fp,"\n"); (yyval.str) = (yyvsp[-4].str);}
+#line 1416 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 59 "trabmain.y" /* yacc.c:1646  */
-    {fprintf(fp,"}\n"); fprintf(fp,"\nfim do se;\n");}
-#line 1416 "trabmain.tab.c" /* yacc.c:1646  */
+#line 65 "trabmainC.y" /* yacc.c:1646  */
+    {fprintf(fp,"}\n");}
+#line 1422 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 59 "trabmain.y" /* yacc.c:1646  */
+#line 65 "trabmainC.y" /* yacc.c:1646  */
     {(yyval.str) = (yyvsp[0].str);}
-#line 1422 "trabmain.tab.c" /* yacc.c:1646  */
+#line 1428 "trabmainC.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1426 "trabmain.tab.c" /* yacc.c:1646  */
+#line 1432 "trabmainC.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1650,7 +1656,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 61 "trabmain.y" /* yacc.c:1906  */
+#line 67 "trabmainC.y" /* yacc.c:1906  */
 
 
 int main(int argc, char *argv[])
