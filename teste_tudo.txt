@@ -1,6 +1,7 @@
-Program ENTRADA s x y
+Program ENTRADA i x y
 SAIDA x
 ZERA(x)
+x = y 
 FACA i VEZES 
 INC(y)
 x = y
@@ -10,11 +11,10 @@ ENQUANTO i FACA
 ZERA(x)
 FIMENQUANTO
 SE i ENTAO
-INC(s)
+INC(y)
 ZERA(x)
 FIMSE
 SENAO
-INC(x)
 ZERA(y)
 FIMSENAO
 SE i ENTAO

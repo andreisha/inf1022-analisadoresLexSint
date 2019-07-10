@@ -1,6 +1,7 @@
 
 input(s,x,y);
 zera(x);
+copia(y,x);
 
 durante i vezes faca {
 incrementa(y);
@@ -23,7 +24,6 @@ zera(x);
 
 fim do entao;
 senao {
-incrementa(x);
 zera(y);
 }
 

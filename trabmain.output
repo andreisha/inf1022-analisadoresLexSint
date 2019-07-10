@@ -1,53 +1,62 @@
-Terminals unused in grammar
+Terminals which are not used
 
    NAME
    ESPACO
+   FIMENTAO
    NUMBER
    PLUS
    MULT
    END
 
 
-Rules useless in parser due to conflicts
-
-    2 lines: line
-
-
-State 15 conflicts: 1 shift/reduce
-State 33 conflicts: 6 shift/reduce
+State 16 conflicts: 6 shift/reduce
+State 18 conflicts: 1 shift/reduce
 
 
 Grammar
 
     0 $accept: program $end
 
-    1 program: PROGRAM lines ROWEND
+    1 program: PROGRAM lines
 
     2 lines: line
     3      | line lines
 
-    4 line: statement ROWEND
+    4 line: statement
 
     5 statement: ENTRADA varlist
     6          | SAIDA varlist
     7          | cmds
     8          | FIM
-    9          | FIMFACA
 
-   10 varlist: id varlist
-   11        | id
+    9 varlist: id varlist
+   10        | id
 
-   12 cmds: cmd cmds
-   13     | cmd ROWEND
-   14     | ROWEND cmd
+   11 cmds: cmd cmds
+   12     | cmd
 
-   15 cmd: FACA id VEZES cmds
-   16    | ENQUANTO id FACA cmds FIMENQUANTO
-   17    | SE id ENTAO cmds FIMENTAO SENAO cmds FIMSENAO
-   18    | SE id ENTAO cmds FIMSE
+   13 @1: /* empty */
+
+   14 cmd: FACA id VEZES @1 cmds FIMFACA
+
+   15 @2: /* empty */
+
+   16 cmd: ENQUANTO id FACA @2 cmds FIMENQUANTO
+
+   17 @3: /* empty */
+
+   18 cmd: SE id ENTAO @3 cmds FIMSE check
    19    | id ASSIGN id
    20    | INC AP id FP
    21    | ZERA AP id FP
+
+   22 @4: /* empty */
+
+   23 check: SENAO @4 cmds FIMSENAO
+
+   24 @5: /* empty */
+
+   25 check: @5 line
 
 
 Terminals, with rules where they appear
@@ -57,54 +66,65 @@ error (256)
 ENTRADA (258) 5
 SAIDA (259) 6
 FIM (260) 8
-FACA (261) 15 16
-VEZES (262) 15
+FACA (261) 14 16
+VEZES (262) 14
 ENQUANTO (263) 16
-SE (264) 17 18
-ENTAO (265) 17 18
-SENAO (266) 17
+SE (264) 18
+ENTAO (265) 18
+SENAO (266) 23
 INC (267) 20
 ZERA (268) 21
 NAME (269)
 ESPACO (270)
-FIMFACA (271) 9
-FIMENTAO (272) 17
-FIMSENAO (273) 17
+FIMFACA (271) 14
+FIMENTAO (272)
+FIMSENAO (273) 23
 FIMENQUANTO (274) 16
 FIMSE (275) 18
-ROWEND (276) 1 4 13 14
-NUMBER (277)
-ASSIGN (278) 19
-PLUS (279)
-AP (280) 20 21
-FP (281) 20 21
-MULT (282)
-END (283)
-PROGRAM (284) 1
-id (285) 10 11 15 16 17 18 19 20 21
+NUMBER (276)
+ASSIGN (277) 19
+PLUS (278)
+AP (279) 20 21
+FP (280) 20 21
+MULT (281)
+END (282)
+PROGRAM (283) 1
+id (284) 9 10 14 16 18 19 20 21
 
 
 Nonterminals, with rules where they appear
 
-$accept (31)
+$accept (30)
     on left: 0
-program (32)
+program (31)
     on left: 1, on right: 0
-lines (33)
+lines (32)
     on left: 2 3, on right: 1 3
-line (34)
-    on left: 4, on right: 2 3
-statement (35)
-    on left: 5 6 7 8 9, on right: 4
-varlist (36)
-    on left: 10 11, on right: 5 6 10
-cmds (37)
-    on left: 12 13 14, on right: 7 12 15 16 17 18
-cmd (38)
-    on left: 15 16 17 18 19 20 21, on right: 12 13 14
+line (33)
+    on left: 4, on right: 2 3 25
+statement (34)
+    on left: 5 6 7 8, on right: 4
+varlist (35)
+    on left: 9 10, on right: 5 6 9
+cmds (36)
+    on left: 11 12, on right: 7 11 14 16 18 23
+cmd (37)
+    on left: 14 16 18 19 20 21, on right: 11 12
+@1 (38)
+    on left: 13, on right: 14
+@2 (39)
+    on left: 15, on right: 16
+@3 (40)
+    on left: 17, on right: 18
+check (41)
+    on left: 23 25, on right: 18
+@4 (42)
+    on left: 22, on right: 23
+@5 (43)
+    on left: 24, on right: 25
 
 
-State 0
+state 0
 
     0 $accept: . program $end
 
@@ -113,9 +133,9 @@ State 0
     program  go to state 2
 
 
-State 1
+state 1
 
-    1 program: PROGRAM . lines ROWEND
+    1 program: PROGRAM . lines
 
     ENTRADA   shift, and go to state 3
     SAIDA     shift, and go to state 4
@@ -125,121 +145,97 @@ State 1
     SE        shift, and go to state 8
     INC       shift, and go to state 9
     ZERA      shift, and go to state 10
-    FIMFACA   shift, and go to state 11
-    ROWEND    shift, and go to state 12
-    id        shift, and go to state 13
+    id        shift, and go to state 11
 
-    lines      go to state 14
-    line       go to state 15
-    statement  go to state 16
-    cmds       go to state 17
-    cmd        go to state 18
+    lines      go to state 12
+    line       go to state 13
+    statement  go to state 14
+    cmds       go to state 15
+    cmd        go to state 16
 
 
-State 2
+state 2
 
     0 $accept: program . $end
 
-    $end  shift, and go to state 19
+    $end  shift, and go to state 17
 
 
-State 3
+state 3
 
     5 statement: ENTRADA . varlist
 
-    id  shift, and go to state 20
+    id  shift, and go to state 18
 
-    varlist  go to state 21
+    varlist  go to state 19
 
 
-State 4
+state 4
 
     6 statement: SAIDA . varlist
 
-    id  shift, and go to state 20
+    id  shift, and go to state 18
 
-    varlist  go to state 22
+    varlist  go to state 20
 
 
-State 5
+state 5
 
     8 statement: FIM .
 
     $default  reduce using rule 8 (statement)
 
 
-State 6
+state 6
 
-   15 cmd: FACA . id VEZES cmds
+   14 cmd: FACA . id VEZES @1 cmds FIMFACA
+
+    id  shift, and go to state 21
+
+
+state 7
+
+   16 cmd: ENQUANTO . id FACA @2 cmds FIMENQUANTO
+
+    id  shift, and go to state 22
+
+
+state 8
+
+   18 cmd: SE . id ENTAO @3 cmds FIMSE check
 
     id  shift, and go to state 23
 
 
-State 7
-
-   16 cmd: ENQUANTO . id FACA cmds FIMENQUANTO
-
-    id  shift, and go to state 24
-
-
-State 8
-
-   17 cmd: SE . id ENTAO cmds FIMENTAO SENAO cmds FIMSENAO
-   18    | SE . id ENTAO cmds FIMSE
-
-    id  shift, and go to state 25
-
-
-State 9
+state 9
 
    20 cmd: INC . AP id FP
 
-    AP  shift, and go to state 26
+    AP  shift, and go to state 24
 
 
-State 10
+state 10
 
    21 cmd: ZERA . AP id FP
 
-    AP  shift, and go to state 27
+    AP  shift, and go to state 25
 
 
-State 11
-
-    9 statement: FIMFACA .
-
-    $default  reduce using rule 9 (statement)
-
-
-State 12
-
-   14 cmds: ROWEND . cmd
-
-    FACA      shift, and go to state 6
-    ENQUANTO  shift, and go to state 7
-    SE        shift, and go to state 8
-    INC       shift, and go to state 9
-    ZERA      shift, and go to state 10
-    id        shift, and go to state 13
-
-    cmd  go to state 28
-
-
-State 13
+state 11
 
    19 cmd: id . ASSIGN id
 
-    ASSIGN  shift, and go to state 29
+    ASSIGN  shift, and go to state 26
 
 
-State 14
+state 12
 
-    1 program: PROGRAM lines . ROWEND
+    1 program: PROGRAM lines .
 
-    ROWEND  shift, and go to state 30
+    $default  reduce using rule 1 (program)
 
 
-State 15
+state 13
 
     2 lines: line .
     3      | line . lines
@@ -252,344 +248,373 @@ State 15
     SE        shift, and go to state 8
     INC       shift, and go to state 9
     ZERA      shift, and go to state 10
-    FIMFACA   shift, and go to state 11
-    ROWEND    shift, and go to state 12
-    id        shift, and go to state 13
+    id        shift, and go to state 11
 
-    ROWEND  [reduce using rule 2 (lines)]
+    $default  reduce using rule 2 (lines)
 
-    lines      go to state 31
-    line       go to state 15
-    statement  go to state 16
-    cmds       go to state 17
-    cmd        go to state 18
+    lines      go to state 27
+    line       go to state 13
+    statement  go to state 14
+    cmds       go to state 15
+    cmd        go to state 16
 
 
-State 16
+state 14
 
-    4 line: statement . ROWEND
+    4 line: statement .
 
-    ROWEND  shift, and go to state 32
+    $default  reduce using rule 4 (line)
 
 
-State 17
+state 15
 
     7 statement: cmds .
 
     $default  reduce using rule 7 (statement)
 
 
-State 18
+state 16
 
-   12 cmds: cmd . cmds
-   13     | cmd . ROWEND
+   11 cmds: cmd . cmds
+   12     | cmd .
 
     FACA      shift, and go to state 6
     ENQUANTO  shift, and go to state 7
     SE        shift, and go to state 8
     INC       shift, and go to state 9
     ZERA      shift, and go to state 10
-    ROWEND    shift, and go to state 33
-    id        shift, and go to state 13
+    id        shift, and go to state 11
 
-    cmds  go to state 34
-    cmd   go to state 18
+    FACA      [reduce using rule 12 (cmds)]
+    ENQUANTO  [reduce using rule 12 (cmds)]
+    SE        [reduce using rule 12 (cmds)]
+    INC       [reduce using rule 12 (cmds)]
+    ZERA      [reduce using rule 12 (cmds)]
+    id        [reduce using rule 12 (cmds)]
+    $default  reduce using rule 12 (cmds)
+
+    cmds  go to state 28
+    cmd   go to state 16
 
 
-State 19
+state 17
 
     0 $accept: program $end .
 
     $default  accept
 
 
-State 20
+state 18
 
-   10 varlist: id . varlist
-   11        | id .
+    9 varlist: id . varlist
+   10        | id .
 
-    id  shift, and go to state 20
+    id  shift, and go to state 18
 
-    $default  reduce using rule 11 (varlist)
+    id        [reduce using rule 10 (varlist)]
+    $default  reduce using rule 10 (varlist)
 
-    varlist  go to state 35
+    varlist  go to state 29
 
 
-State 21
+state 19
 
     5 statement: ENTRADA varlist .
 
     $default  reduce using rule 5 (statement)
 
 
-State 22
+state 20
 
     6 statement: SAIDA varlist .
 
     $default  reduce using rule 6 (statement)
 
 
-State 23
+state 21
 
-   15 cmd: FACA id . VEZES cmds
+   14 cmd: FACA id . VEZES @1 cmds FIMFACA
 
-    VEZES  shift, and go to state 36
-
-
-State 24
-
-   16 cmd: ENQUANTO id . FACA cmds FIMENQUANTO
-
-    FACA  shift, and go to state 37
+    VEZES  shift, and go to state 30
 
 
-State 25
+state 22
 
-   17 cmd: SE id . ENTAO cmds FIMENTAO SENAO cmds FIMSENAO
-   18    | SE id . ENTAO cmds FIMSE
+   16 cmd: ENQUANTO id . FACA @2 cmds FIMENQUANTO
 
-    ENTAO  shift, and go to state 38
+    FACA  shift, and go to state 31
 
 
-State 26
+state 23
+
+   18 cmd: SE id . ENTAO @3 cmds FIMSE check
+
+    ENTAO  shift, and go to state 32
+
+
+state 24
 
    20 cmd: INC AP . id FP
 
-    id  shift, and go to state 39
+    id  shift, and go to state 33
 
 
-State 27
+state 25
 
    21 cmd: ZERA AP . id FP
 
-    id  shift, and go to state 40
+    id  shift, and go to state 34
 
 
-State 28
-
-   14 cmds: ROWEND cmd .
-
-    $default  reduce using rule 14 (cmds)
-
-
-State 29
+state 26
 
    19 cmd: id ASSIGN . id
 
-    id  shift, and go to state 41
+    id  shift, and go to state 35
 
 
-State 30
-
-    1 program: PROGRAM lines ROWEND .
-
-    $default  reduce using rule 1 (program)
-
-
-State 31
+state 27
 
     3 lines: line lines .
 
     $default  reduce using rule 3 (lines)
 
 
-State 32
+state 28
 
-    4 line: statement ROWEND .
+   11 cmds: cmd cmds .
 
-    $default  reduce using rule 4 (line)
-
-
-State 33
-
-   13 cmds: cmd ROWEND .
-   14     | ROWEND . cmd
-
-    FACA      shift, and go to state 6
-    ENQUANTO  shift, and go to state 7
-    SE        shift, and go to state 8
-    INC       shift, and go to state 9
-    ZERA      shift, and go to state 10
-    id        shift, and go to state 13
-
-    FACA      [reduce using rule 13 (cmds)]
-    ENQUANTO  [reduce using rule 13 (cmds)]
-    SE        [reduce using rule 13 (cmds)]
-    INC       [reduce using rule 13 (cmds)]
-    ZERA      [reduce using rule 13 (cmds)]
-    id        [reduce using rule 13 (cmds)]
-    $default  reduce using rule 13 (cmds)
-
-    cmd  go to state 28
+    $default  reduce using rule 11 (cmds)
 
 
-State 34
+state 29
 
-   12 cmds: cmd cmds .
+    9 varlist: id varlist .
 
-    $default  reduce using rule 12 (cmds)
-
-
-State 35
-
-   10 varlist: id varlist .
-
-    $default  reduce using rule 10 (varlist)
+    $default  reduce using rule 9 (varlist)
 
 
-State 36
+state 30
 
-   15 cmd: FACA id VEZES . cmds
+   14 cmd: FACA id VEZES . @1 cmds FIMFACA
 
-    FACA      shift, and go to state 6
-    ENQUANTO  shift, and go to state 7
-    SE        shift, and go to state 8
-    INC       shift, and go to state 9
-    ZERA      shift, and go to state 10
-    ROWEND    shift, and go to state 12
-    id        shift, and go to state 13
+    $default  reduce using rule 13 (@1)
 
-    cmds  go to state 42
-    cmd   go to state 18
+    @1  go to state 36
 
 
-State 37
+state 31
 
-   16 cmd: ENQUANTO id FACA . cmds FIMENQUANTO
+   16 cmd: ENQUANTO id FACA . @2 cmds FIMENQUANTO
 
-    FACA      shift, and go to state 6
-    ENQUANTO  shift, and go to state 7
-    SE        shift, and go to state 8
-    INC       shift, and go to state 9
-    ZERA      shift, and go to state 10
-    ROWEND    shift, and go to state 12
-    id        shift, and go to state 13
+    $default  reduce using rule 15 (@2)
 
-    cmds  go to state 43
-    cmd   go to state 18
+    @2  go to state 37
 
 
-State 38
+state 32
 
-   17 cmd: SE id ENTAO . cmds FIMENTAO SENAO cmds FIMSENAO
-   18    | SE id ENTAO . cmds FIMSE
+   18 cmd: SE id ENTAO . @3 cmds FIMSE check
 
-    FACA      shift, and go to state 6
-    ENQUANTO  shift, and go to state 7
-    SE        shift, and go to state 8
-    INC       shift, and go to state 9
-    ZERA      shift, and go to state 10
-    ROWEND    shift, and go to state 12
-    id        shift, and go to state 13
+    $default  reduce using rule 17 (@3)
 
-    cmds  go to state 44
-    cmd   go to state 18
+    @3  go to state 38
 
 
-State 39
+state 33
 
    20 cmd: INC AP id . FP
 
-    FP  shift, and go to state 45
+    FP  shift, and go to state 39
 
 
-State 40
+state 34
 
    21 cmd: ZERA AP id . FP
 
-    FP  shift, and go to state 46
+    FP  shift, and go to state 40
 
 
-State 41
+state 35
 
    19 cmd: id ASSIGN id .
 
     $default  reduce using rule 19 (cmd)
 
 
-State 42
+state 36
 
-   15 cmd: FACA id VEZES cmds .
-
-    $default  reduce using rule 15 (cmd)
-
-
-State 43
-
-   16 cmd: ENQUANTO id FACA cmds . FIMENQUANTO
-
-    FIMENQUANTO  shift, and go to state 47
-
-
-State 44
-
-   17 cmd: SE id ENTAO cmds . FIMENTAO SENAO cmds FIMSENAO
-   18    | SE id ENTAO cmds . FIMSE
-
-    FIMENTAO  shift, and go to state 48
-    FIMSE     shift, and go to state 49
-
-
-State 45
-
-   20 cmd: INC AP id FP .
-
-    $default  reduce using rule 20 (cmd)
-
-
-State 46
-
-   21 cmd: ZERA AP id FP .
-
-    $default  reduce using rule 21 (cmd)
-
-
-State 47
-
-   16 cmd: ENQUANTO id FACA cmds FIMENQUANTO .
-
-    $default  reduce using rule 16 (cmd)
-
-
-State 48
-
-   17 cmd: SE id ENTAO cmds FIMENTAO . SENAO cmds FIMSENAO
-
-    SENAO  shift, and go to state 50
-
-
-State 49
-
-   18 cmd: SE id ENTAO cmds FIMSE .
-
-    $default  reduce using rule 18 (cmd)
-
-
-State 50
-
-   17 cmd: SE id ENTAO cmds FIMENTAO SENAO . cmds FIMSENAO
+   14 cmd: FACA id VEZES @1 . cmds FIMFACA
 
     FACA      shift, and go to state 6
     ENQUANTO  shift, and go to state 7
     SE        shift, and go to state 8
     INC       shift, and go to state 9
     ZERA      shift, and go to state 10
-    ROWEND    shift, and go to state 12
-    id        shift, and go to state 13
+    id        shift, and go to state 11
 
-    cmds  go to state 51
-    cmd   go to state 18
-
-
-State 51
-
-   17 cmd: SE id ENTAO cmds FIMENTAO SENAO cmds . FIMSENAO
-
-    FIMSENAO  shift, and go to state 52
+    cmds  go to state 41
+    cmd   go to state 16
 
 
-State 52
+state 37
 
-   17 cmd: SE id ENTAO cmds FIMENTAO SENAO cmds FIMSENAO .
+   16 cmd: ENQUANTO id FACA @2 . cmds FIMENQUANTO
 
-    $default  reduce using rule 17 (cmd)
+    FACA      shift, and go to state 6
+    ENQUANTO  shift, and go to state 7
+    SE        shift, and go to state 8
+    INC       shift, and go to state 9
+    ZERA      shift, and go to state 10
+    id        shift, and go to state 11
+
+    cmds  go to state 42
+    cmd   go to state 16
+
+
+state 38
+
+   18 cmd: SE id ENTAO @3 . cmds FIMSE check
+
+    FACA      shift, and go to state 6
+    ENQUANTO  shift, and go to state 7
+    SE        shift, and go to state 8
+    INC       shift, and go to state 9
+    ZERA      shift, and go to state 10
+    id        shift, and go to state 11
+
+    cmds  go to state 43
+    cmd   go to state 16
+
+
+state 39
+
+   20 cmd: INC AP id FP .
+
+    $default  reduce using rule 20 (cmd)
+
+
+state 40
+
+   21 cmd: ZERA AP id FP .
+
+    $default  reduce using rule 21 (cmd)
+
+
+state 41
+
+   14 cmd: FACA id VEZES @1 cmds . FIMFACA
+
+    FIMFACA  shift, and go to state 44
+
+
+state 42
+
+   16 cmd: ENQUANTO id FACA @2 cmds . FIMENQUANTO
+
+    FIMENQUANTO  shift, and go to state 45
+
+
+state 43
+
+   18 cmd: SE id ENTAO @3 cmds . FIMSE check
+
+    FIMSE  shift, and go to state 46
+
+
+state 44
+
+   14 cmd: FACA id VEZES @1 cmds FIMFACA .
+
+    $default  reduce using rule 14 (cmd)
+
+
+state 45
+
+   16 cmd: ENQUANTO id FACA @2 cmds FIMENQUANTO .
+
+    $default  reduce using rule 16 (cmd)
+
+
+state 46
+
+   18 cmd: SE id ENTAO @3 cmds FIMSE . check
+
+    SENAO  shift, and go to state 47
+
+    $default  reduce using rule 24 (@5)
+
+    check  go to state 48
+    @5     go to state 49
+
+
+state 47
+
+   23 check: SENAO . @4 cmds FIMSENAO
+
+    $default  reduce using rule 22 (@4)
+
+    @4  go to state 50
+
+
+state 48
+
+   18 cmd: SE id ENTAO @3 cmds FIMSE check .
+
+    $default  reduce using rule 18 (cmd)
+
+
+state 49
+
+   25 check: @5 . line
+
+    ENTRADA   shift, and go to state 3
+    SAIDA     shift, and go to state 4
+    FIM       shift, and go to state 5
+    FACA      shift, and go to state 6
+    ENQUANTO  shift, and go to state 7
+    SE        shift, and go to state 8
+    INC       shift, and go to state 9
+    ZERA      shift, and go to state 10
+    id        shift, and go to state 11
+
+    line       go to state 51
+    statement  go to state 14
+    cmds       go to state 15
+    cmd        go to state 16
+
+
+state 50
+
+   23 check: SENAO @4 . cmds FIMSENAO
+
+    FACA      shift, and go to state 6
+    ENQUANTO  shift, and go to state 7
+    SE        shift, and go to state 8
+    INC       shift, and go to state 9
+    ZERA      shift, and go to state 10
+    id        shift, and go to state 11
+
+    cmds  go to state 52
+    cmd   go to state 16
+
+
+state 51
+
+   25 check: @5 line .
+
+    $default  reduce using rule 25 (check)
+
+
+state 52
+
+   23 check: SENAO @4 cmds . FIMSENAO
+
+    FIMSENAO  shift, and go to state 53
+
+
+state 53
+
+   23 check: SENAO @4 cmds FIMSENAO .
+
+    $default  reduce using rule 23 (check)
