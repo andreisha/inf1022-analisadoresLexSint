@@ -3,39 +3,38 @@ input(s,x,y);
 zera(x);
 
 durante i vezes faca {
-
 incrementa(y);
 copia(y,x);
 zera(y);
-
 }
 
 fim do faca;
 
 enquanto i > 0 faca {
-
 zera(x);
-
 }
 
 fim do enquanto;
 
-se i > 0 entao {
-
+se i > 0 se {
 incrementa(s);
 zera(x);
-
 }
 
 fim do entao;
 senao {
-
 incrementa(x);
 zera(y);
-
 }
 
 fim do senao;
+
+se i > 0 se {
+incrementa(y);
+zera(x);
+}
+
+fim do se;
 
 output(x);
 
