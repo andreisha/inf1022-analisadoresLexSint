@@ -1,34 +1,43 @@
 #include<stdio.h>
-
-int program(int x, int y, int z);
+#include<stdlib.h>
 
 int main(int argc, char *argv[]){
-printf("Resultado = %d", program(s,x,y));
-}
+int k = argc-1;
 
+int y = atoi(argv[k]);
+k--;
+int x = atoi(argv[k]);
+k--;
+int s = atoi(argv[k]);
+k--;
 
-int program(s,x,y){
+int m = atoi(argv[k]);
+k--;
 x = 0;
 
-for(int j = 0; j < i; j++){
+for(int j = 0; j < 2; j++){
 y++;
 x = y;
 y = 0;
 }
 
-while(i > 0){
+int j = 2;
+while(j > 0){
 x = 0;
-i--;
+j--;
 }
 
-if(i > 0){
+if(2 > 0){
 s++;
 x = 0;
 }
 else{
 x++;
 y = 0;
+m = x;
 }
 
-return x;
+printf("%d\n", m);
+
+return 0;
 }

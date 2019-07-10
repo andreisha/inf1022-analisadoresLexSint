@@ -33,23 +33,20 @@ lines: line {$$ = $1;}
 
 line: statement ROWEND {$$ = $1;}
 
-statement: ENTRADA varlist{fp = fopen("provolone.c","w");
-                                fprintf (fp, "#include<stdio.h>\n\n");
-                                fprintf (fp, "int program(int x, int y, int z);\n\n");
-                                fprintf (fp, "int main(int argc, char *argv[]){\n");
-                                fprintf (fp, "printf(\"Resultado = %%d\", program(%s));\n", $2);
-                                fprintf (fp, "}\n\n");
-                                fprintf (fp, "\nint program(%s){\n", $2);}
-        | SAIDA varlist {output = (char *)malloc(11+(strlen($2))*sizeof(char)); 
-			strcpy(output,"return ");
+statement: ENTRADA {fp = fopen("provolone.c","w"); fprintf(fp, "#include<stdio.h>\n"); fprintf(fp, "#include<stdlib.h>\n\n"); 
+        fprintf(fp, "int main(int argc, char *argv[]){\n");
+        fprintf(fp, "int k = argc-1;\n\n");} 
+        varlist {fprintf(fp,"\n");}
+        | SAIDA varlist {output = (char *)malloc(32+(strlen($2))*sizeof(char)); 
+			strcpy(output,"printf(\"%d\\n\", ");
 			strcat(output,$2);
-			strcat(output,";");}
+			strcat(output,");\n");}
         | cmds 
         | FIM {	fputs(output,fp);
-		fprintf (fp,"\n}\n");fclose(fp); exit(1);}
+		fprintf (fp,"\nreturn 0;\n}\n");fclose(fp); exit(1);}
         
-varlist: id varlist {char * result = malloc(strlen($1) + strlen($2) + 1); strcpy(result, $1); strcat(result, ","); strcat(result, $2); $$=result;}
-        | id {$$ = $1;};
+varlist: id varlist {fprintf(fp, "int %s = atoi(argv[k]);\nk--;\n", $$); char * result = malloc(strlen($1) + strlen($2) + 1); strcpy(result, $1); strcat(result, ","); strcat(result, $2); $$=result;}
+        | id {fprintf(fp, "int %s = atoi(argv[k]);\nk--;\n", $$); $$ = $1;};
        
 cmds: cmd cmds {char * result = malloc(strlen($1) + strlen($2) + 1); strcpy(result, $1); strcat(result, ";\n"); strcat(result, $2); $$=result;}
         | cmd {$$=$1;}

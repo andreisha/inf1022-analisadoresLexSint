@@ -46,7 +46,7 @@ SAIDA x
 FIM
 
 Program ENTRADA s x y
-SAIDA x
+SAIDA m
 ZERA(x)
 FACA i VEZES 
 INC(y)
@@ -63,6 +63,7 @@ FIMSE
 SENAO
 INC(x)
 ZERA(y)
+m = x
 FIMSENAO
 FIM
 
