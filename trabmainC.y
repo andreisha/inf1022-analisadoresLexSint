@@ -55,7 +55,7 @@ cmds: cmd cmds {char * result = malloc(strlen($1) + strlen($2) + 1); strcpy(resu
         | cmd {$$=$1;}
     
 cmd: FACA id VEZES {fprintf(fp,"\nfor(int j = 0; j < %s; j++){\n", $2);} ROWEND cmds FIMFACA {fprintf(fp,"}\n"); $$ = $1;}
-	| ENQUANTO id FACA {fprintf(fp,"\nwhile(%s > 0){\n", $2);} ROWEND cmds FIMENQUANTO {fprintf(fp,"i--;\n}\n"); $$ = $1;}
+	| ENQUANTO id FACA {fprintf(fp,"\nint j = %s;\nwhile(j > 0){\n", $2);} ROWEND cmds FIMENQUANTO {fprintf(fp,"j--;\n}\n"); $$ = $1;}
 	| SE id ENTAO {fprintf(fp,"\nif(%s > 0){\n", $2);} ROWEND cmds FIMSE ROWEND check
         | id ASSIGN id ROWEND {fprintf(fp,"%s = %s;\n",$1,$3);}
 	| INC AP id FP ROWEND {fprintf (fp,"%s++;\n", $3); $$=$3;}
