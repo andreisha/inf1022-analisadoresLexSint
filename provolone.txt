@@ -1,3 +1,0 @@
-
-input(s,x,y);
-zera(x);

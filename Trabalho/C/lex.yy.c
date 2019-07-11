@@ -522,7 +522,7 @@ char *yytext_ptr;
 #line 3 "trabmain.l"
       #include <stdio.h>
       #include <string.h>
-      #include "trabmain.tab.h"
+      #include "trabmainC.tab.h"
 #line 527 "lex.yy.c"
 
 #define INITIAL 0
