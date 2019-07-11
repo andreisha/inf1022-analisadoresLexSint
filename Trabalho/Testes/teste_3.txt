@@ -1,0 +1,12 @@
+Program ENTRADA i x y
+SAIDA x
+ZERA(x)
+FACA i VEZES
+INC(x)
+INC(i)
+FIMFACA
+y = x
+FIM
+
+
+

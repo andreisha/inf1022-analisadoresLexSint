@@ -1,0 +1,7 @@
+Program ENTRADA i x y
+SAIDA x
+ZERA(x)
+FIM
+
+
+

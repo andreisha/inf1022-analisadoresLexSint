@@ -1,0 +1,13 @@
+Program ENTRADA i x y
+SAIDA m
+m = x
+FACA i VEZES
+INC(m)
+ENQUANTO y FACA
+INC(m)
+FIMENQUANTO
+FIMFACA
+FIM
+
+
+
