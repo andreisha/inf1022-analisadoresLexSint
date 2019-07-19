@@ -1,4 +1,4 @@
-# inf1022-analisadoresLexSint
+# Analisadores Lexicos e Sintaticos
 
 O Projeto consiste em usar o conjunto de ferramentas Flex/Bison (Lex/Yacc) para geraçao de compiladores com o objetivo de gerar codigo de uma linguagem imperativa (Provol-One) em Maquinas de Turing.
 
